@@ -4,6 +4,6 @@ namespace GC.Contracts.Services;
 
 public interface IGCDataService
 {
-    User AddUser(User user);
-    Repository AddRepository(Repository repo);
-}
+    User UpsertUser(User user);
+    Repository UpsertRepository(Repository repo);
+} 

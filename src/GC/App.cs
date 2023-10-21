@@ -4,6 +4,7 @@ using GC.Data.Contracts.Models;
 using Microsoft.Extensions.Options;
 using Octokit;
 using Polly;
+using Repository = GC.Data.Contracts.Models.Repository;
 using User = GC.Data.Contracts.Models.User;
 
 namespace GC;
@@ -136,11 +137,57 @@ public class App
 
         foreach (var repository in repositories)
         {
-            _gcDataService.AddUser(new User {Name = repository.Owner.Name});
+            _gcDataService.UpsertUser(new User {Name = repository.Owner.Name});
             
             if (IsWildcardMatch(repository.Name, repositoryNameWildcard))
             {
                 Console.WriteLine($"Repository: {repository.Name}");
+
+                _gcDataService.UpsertRepository(new Repository
+                {
+                    AllowAutoMerge = repository.AllowAutoMerge,
+                    AllowMergeCommit = repository.AllowMergeCommit,
+                    AllowRebaseMerge = repository.AllowRebaseMerge,
+                    AllowSquashMerge = repository.AllowSquashMerge,
+                    AllowUpdateBranch = repository.AllowUpdateBranch,
+                    Archived = repository.Archived,
+                    CloneUrl = repository.CloneUrl,
+                    CreatedAt = repository.CreatedAt,
+                    DefaultBranch = repository.DefaultBranch,
+                    DeleteBranchOnMerge = repository.DeleteBranchOnMerge,
+                    Description = repository.Description,
+                    Fork = repository.Fork,
+                    ForksCount = repository.ForksCount,
+                    FullName = repository.FullName,
+                    GitUrl = repository.GitUrl,
+                    HasDiscussions = repository.HasDiscussions,
+                    HasDownloads = repository.HasDownloads,
+                    HasIssues = repository.HasIssues,
+                    HasPages = repository.HasPages,
+                    HasWiki = repository.HasWiki,
+                    Homepage = repository.Homepage,
+                    IsTemplate = repository.IsTemplate,
+                    Language = repository.Language,
+                    Name = repository.Name,
+                    NodeId = repository.NodeId,
+                    OpenIssuesCount = repository.OpenIssuesCount,
+                    Owner = repository.Owner.Name,
+                    Private = repository.Private,
+                    PushedAt = repository.PushedAt,
+                    Size = repository.Size,
+                    SshUrl = repository.SshUrl,
+                    StargazersCount = repository.StargazersCount,
+                    SubscribersCount = repository.SubscribersCount,
+                    Topics = repository.Topics,
+                    UpdatedAt = repository.UpdatedAt,
+                    Url = repository.Url,
+                    Visibility = repository.Visibility.ToString(),
+                    WebCommitSignoffRequired = repository.WebCommitSignoffRequired,
+                });
+
+
+
+
                 // Console.WriteLine($"Description: {repository.Description}");
                 // Console.WriteLine($"Stars: {repository.StargazersCount}");
                 // Console.WriteLine("Forks:");
